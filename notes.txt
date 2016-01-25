@@ -1,0 +1,113 @@
+Programming Languages Notes
+
+01/25/16
+
+Datatype Bindings
+-   Ex:
+    datatype mytype = TwoInts of int * int
+                    | Str of string
+                    | foo
+-   You can use the types defined with this method later on
+-   Expression Trees
+    -   Ex:
+        datatype exp = Constant of int
+                     | Negate of exp
+                     | Add of exp * exp
+                     | Multiply of exp * exp
+            
+01/22/16
+
+Boolean Operators
+-   andalso, orelse, not
+
+Comparisons
+-   <, <=, >, >= can be used with two ints or two reals
+-   <>, = can be used with two ints but NOT two reals
+        
+Immutability
+-   No assignment statements
+-   Don't have to worry about functions changing your data
+
+Building Bigger Types
+-   Type building blocks
+    -   "Each of" - a t value contains values each of t1, t2, ... , tn
+    -   "One of" - a t value contains values of one of t1, t2, ... , tn
+    -   "Self reference" - a t value can refer to other t values
+-   "Each of" types
+    -   Records
+        -   have named fields
+        -   values: { f1 = v1, ... , fn = vn }
+        -   types: { f1 : t1, ... , fn : tn }
+        -   building: { f1 = e1, ... , fn = en }
+        -   accessing: #fieldName recordName
+        -   tuples are basically records of the form { 1 = v1, 2 = v2, ... , n = vn }
+
+01/20/16
+
+Let Expressions
+-   Adds scope to bindings
+-   Ex:
+    fun foo(x : int) =
+    let val y = if x > 0 then x + 3 else 2
+    in
+        2 * y + x
+    end
+-   Can also do functions
+    -   Ex:
+        let fun goo() =
+            "goo"
+            
+Options
+-   Let you return 'null' instead of an actual value
+-   t option is a type for any type t
+    -   Much like t list, but a different type (not a list)
+-   Building
+    -   NONE has typ 'a option
+    -   SOME e has type t option if e has type t
+-   Accessing
+    -   isSome has type 'a option -> bool
+    -   valOf has type 'a option -> 'a
+        
+01/15/16
+
+Tuples
+-   (e1, e2, ... en)
+    -   Evaluates to (v1, v2, ... vn)
+    -  #1, #2, ... #n accesses the corresponding element
+        -   #loc tuple -> tuple[loc - 1]
+-   Most basic: pairs (2-tuples)
+-   Can be any collection of types (not all items must be the same type)
+-   Ex:
+    fun swap (pr : int*bool) = 
+        (#2 pr, #1 pr)
+-   Nesting
+    -   (e1, (e2, e3)) is valid
+    
+Lists
+-   Empty list: []
+-   All values must be the same data type
+-   Appending
+    -   Let e1 evaluate to v0
+        Let e2 evaluate to [v1, v2, ... , vn]
+        Then e1::e2 evaluate to [v0, v1, v2, ... , vn]
+    -   For e1::e2 to work, e1 must be of type 't' and e2 must be of type 't list'
+-   Null: 'null e' evaluates to 'true' iff e evaluates to []
+
+01/13/16
+
+Function Bindings
+-   fun x0 (x1 : t1, ... , xn : tn) = e
+-   A function is a value.
+-   New kind of type: (t1 * ... * tn) -> t
+    -   Result type on right
+    -   x0 gets this type 
+    
+Function Calls
+-   e0 (e1, ... , en)
+    -   Parentheses optional if only one argument
+-   Type checking
+    -   if e0 has some type (t1 * ... * tn) -> t
+        and e1 has type t1
+        and en has type tn
+        then e0 (e1, ... , en) has type t
+    
