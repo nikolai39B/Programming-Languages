@@ -1,5 +1,9 @@
 Programming Languages Notes
 
+01/29/16
+
+ 
+
 01/25/16
 
 Datatype Bindings
