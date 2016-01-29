@@ -15,10 +15,24 @@ val missing_1			= all_except_option("d", ["b", "a", "c"]) = NONE;
 
 val test2				= "get_substitutions1";
 val empty_2				= get_substitutions1([[]], "a") = [];
-val example_2			= get_substitutions1([["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]], "Fred") = ["Fredrick","Freddie","F"];
+val example1_2			= get_substitutions1([["Fred", "Fredrick"], ["Elizabeth", "Betty"], 
+                            ["Freddie", "Fred", "F"]], "Fred") = ["Fredrick", "Freddie", "F"];
+val example2_2          = get_substitutions1([["Fred", "Fredrick"], ["Jeff", "Jeffrey"], 
+                            ["Geoff", "Jeff", "Jeffrey"]], "Jeff") = ["Jeffrey", "Geoff", "Jeffrey"];
 val basic1_2			= get_substitutions1([["a", "b"], ["a", "c"], ["c", "d", "e"]], "a") = ["b", "c"];
 val basic2_2			= get_substitutions1([["a", "b"], ["a", "c"], ["c", "d", "e"]], "b") = ["a"];
 val basic3_2			= get_substitutions1([["a", "b"], ["a", "c"], ["c", "d", "e"]], "c") = ["a", "d", "e"];
 val basic4_2			= get_substitutions1([["a", "b"], ["a", "c"], ["c", "d", "e"]], "d") = ["c", "e"];
 val missing_2			= get_substitutions1([["a", "b"], ["a", "c"], ["c", "d", "e"]], "f") = [];
+
+val test3               = "get_substitutions2";
+
+
+val test4               = "similar_names";
+val example_4           = similar_names([["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]], 
+                            {first="Fred", middle="W", last="Smith"});(* = 
+                            [{first="Fred", last="Smith", middle="W"}, 
+                             {first="Fredrick", last="Smith", middle="W"},
+                             {first="Freddie", last="Smith", middle="W"},
+                             {first="F", last="Smith", middle="W"}];*)
 
