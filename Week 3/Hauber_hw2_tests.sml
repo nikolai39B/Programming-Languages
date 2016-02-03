@@ -4,8 +4,7 @@
 	01/28/16
 *)
 
-use "hw2providedTests.sml";
-use "hw2provided.sml";
+use "Hauber_hw2.sml";
 
 val test1				= "all_except_option";
 val empty_1				= all_except_option("a", []) = NONE;
@@ -103,7 +102,7 @@ val basic3_9			= sum_cards([(Clubs, Num(5)), (Clubs, Queen), (Hearts, Ace)]) = 2
 
 val test10				= "score";
 val empty1_9			= score([], 0) = 0;
-val empty2_9			= score([], 5) = 2;
+val empty2_9			= score([], 5) = 5 div 2;
 val basic1_9			= score([(Clubs, Jack)], 5) = ((10 - 5) * 3) div 2;
 val basic2_9			= score([(Clubs, Jack)], 15) = (10 - 5) div 2;
 val complex1_9			= score([(Diamonds, Jack), (Hearts, Ace), (Spades, Num(4))], 25) = 0;
@@ -112,15 +111,21 @@ val complex3_9			= score([(Diamonds, Jack), (Hearts, Ace), (Spades, Num(4))], 10
 val complex4_9			= score([(Diamonds, Jack), (Hearts, Ace), (Hearts, Num(4))], 10) = ((25 - 10) * 3) div 2;
 
 val test11				= "officiate";
-						(* This is a copy of provided_test1(). For some reason the exception wasn't being handles properly if I
-						   just call the function itself, but this way it works. *)
-val provided1_11		=
-						(let 
-							val cards = [(Clubs,Jack),(Spades,Num(8))]
-							val moves = [Draw,Discard(Hearts,Jack)]
-						in
-							officiate(cards,moves,42) 
-						end 
+val provided1_11		= (officiate([(Clubs,Jack), (Spades,Num(8))], [Draw, Discard(Hearts,Jack)], 42) 
 							handle IllegalMove => 99999) = 99999;
-val provided2_11		= provided_test2() = 3;
+val provided2_11		= officiate([(Clubs,Ace), (Spades,Ace), (Clubs,Ace), (Spades,Ace)], [ Draw, Draw, Draw, Draw, Draw ], 42) = 3;
+val empty1_11			= officiate([], [], 4) = 4 div 2;
+val empty2_11			= officiate([], [ Draw ], 13) = 13 div 2;
+val empty3_11			= officiate([(Spades, Num(7))], [], 8) = 8 div 2;
+val basic1_11			= officiate([(Diamonds, Jack), (Hearts, Ace), (Spades, Num(4))], 
+							[ Draw, Discard(Diamonds, Jack), Draw ], 15) = (15 - 11) div 2;
+val basic2_11			= officiate([(Diamonds, Jack), (Hearts, Ace), (Spades, Num(4))], 
+							[ Draw, Draw, Discard(Diamonds, Jack), Draw ], 22) = 22 - 15;
+val overDraw_11			= officiate([(Diamonds, Jack), (Hearts, Ace), (Spades, Num(4))], 
+							[ Draw, Draw, Draw, Draw ], 30) = 30 - 25;
+val surpassGoal_11		= officiate([(Diamonds, Jack), (Hearts, Ace), (Spades, Num(4))], 
+							[ Draw, Draw, Draw ], 11) = ((21 - 11) * 3) div 2;
+val complex_11			= officiate([(Hearts, Num(8)), (Diamonds, Num(6)), (Clubs, Queen), (Hearts, Ace), (Spades, Num(2)), (Clubs, King)],
+							[ Draw, Draw, Draw, Discard(Clubs, Queen), Draw, Draw, Discard(Spades, Num(2))], 28) = (28 - 25) div 2;
+							
 

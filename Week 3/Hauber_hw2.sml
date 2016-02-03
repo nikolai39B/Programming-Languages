@@ -1,10 +1,17 @@
+(* CS 4003, HW2 Provided Code *)
+
 (*
 	Will Hauber
-	Homework 2
+	Homework 2 Solution
 	01/28/16
 *)
 
-use "hw2provided.sml";
+(* if you use this function to compare two strings (returns true if the same
+   string), then you avoid several of the functions in problem 1 having
+   polymorphic types that may be confusing *)
+   
+fun same_string(s1 : string, s2 : string) =
+    s1 = s2
 
 fun all_except_option(searchString : string, stringList : string list) =
 	case stringList of
@@ -85,4 +92,143 @@ fun similar_names(substitions : string list list, fullName : {first : string, mi
 					fullName::buildFullNameInstances(possibleSubstituions, fullName)
 				end
 			end
-				
+
+(* you may assume that Num is always used with values 2, 3, ..., 9
+   though it will not really come up *)
+datatype suit = Clubs | Diamonds | Hearts | Spades
+datatype rank = Jack | Queen | King | Ace | Num of int 
+type card = suit * rank
+
+datatype color = Red | Black
+datatype move = Discard of card | Draw
+
+exception IllegalMove
+exception NotInList
+
+fun card_color(currentCard : card) =
+	case currentCard of
+		(Clubs, r) => Black
+	  | (Spades, r) => Black
+	  | (Diamonds, r) => Red
+	  | (Hearts, r) => Red
+	  
+fun card_value(currentCard : card) =
+	case currentCard of
+		(s, Num(value)) => value
+	  | (s, Jack) => 10
+	  | (s, Queen) => 10
+	  | (s, King) => 10
+	  | (s, Ace) => 11
+	  
+fun remove_card(cs : card list, c : card, e : exn) =
+	case cs of
+		(* If we hit the end, we didn't find our card, so throw the exception. *)
+		[] => raise e
+		(* Peel of the head value. *)
+	  | head::tail =>
+			(* If it's our card... *)
+			if head = c
+			(* ...then return the rest of the cards. *)
+			then tail
+			(* Otherwise, recurse on the tail and prepend the current card. *)
+			else head::remove_card(tail, c, e)
+	
+fun all_same_color(cards: card list) =
+	case cards of
+		(* If there's no cards, should we return true or false? Assumed true. *)
+		[] => true
+		(* Get the color for the first card in the list. *)
+	  | first::rest =>
+			(* Store this color and compare to it all other cards. *)
+			let
+				val cardColor = card_color(first)
+			in
+				let 
+					fun cardsAreColor(cardsToCheck : card list, requiredColor : color) =
+						case cardsToCheck of
+							(* If we're out of cards, then all cards were the required color. *)
+							[] => true
+							(* Otherwise, check the next card. *)
+						  | head::tail =>
+								(* If this card is the required color... *)
+								if card_color(head) = requiredColor
+								(* ...we're good so far. Check the rest. *)
+								then cardsAreColor(tail, requiredColor)
+								(* Otherwise, we've failed so return false. *)
+								else false
+				in
+					(* Call our local helper to solve the problem. *)
+					cardsAreColor(rest, cardColor)
+				end
+			end
+							 
+fun sum_cards(cards : card list) =
+	let
+		fun getSum(cs : card list, accSum : int) =
+			case cs of
+				(* If we're out of cards, return the accumulation. *)
+				[] => accSum
+				(* Otherwise, add to the accumulation and recurse on the rest of the cards. *)
+			  | head::tail => getSum(tail, accSum + card_value(head))
+	in
+		(* Call our local helper with default values. *)
+		getSum(cards, 0)
+	end
+	
+fun score(heldCards : card list, goal : int) =
+	let
+		(* Get the sum of the held cards. *)
+		val sumHeldCards = sum_cards(heldCards)
+	in
+		let
+			(* Get the preliminary score. *)
+			val preliminaryScore =
+				if sumHeldCards > goal
+				then 3 * (sumHeldCards - goal)
+				else goal - sumHeldCards
+		in
+			(* Divide by 2 if all cards are the same color. *)
+			if all_same_color(heldCards)
+			then preliminaryScore div 2
+			else preliminaryScore
+		end
+	end
+	
+fun officiate(cardList : card list, playerMoves : move list, goal : int) =
+	let
+		fun runGame(playerHand : card list, remainingCards : card list, remainingMoves : move list, goal : int) =
+			(* If there are no more moves... *)
+			if remainingMoves = []
+			(* ...the game is over, so return the score. *)
+			then score(playerHand, goal)
+			(* Otherwise, keep checking conditions. *)
+			else
+				case remainingMoves of
+					(* If the next move is a discard, then discard that card and recurse to do the next move. *)
+					Discard(headCard)::restOfMoves =>
+						runGame(remove_card(playerHand, headCard, IllegalMove), remainingCards, restOfMoves, goal)
+					(* Otherwise, draw a card. *)
+				  | Draw::restOfMoves =>
+						case remainingCards of
+							(* If there are no more cards, the game is over, so return the score. *)
+							[] => score(playerHand, goal)
+							(* Otherwise, draw a card and add it to the player hand. *)
+						  | headCard::restOfCards =>
+							let
+								(* Update the player hand so that we can check it. *)
+								val newPlayerHand = headCard::playerHand
+							in
+								(* If the sum of the player cards exceeds the goal... *)
+								if sum_cards(newPlayerHand) > goal
+								(* ...the game is over, so return the score. *)
+								then score(newPlayerHand, goal)
+								(* Otherwise, recurse to do the next move. *)
+								else runGame(newPlayerHand, restOfCards, restOfMoves, goal)
+							end
+	in
+		(* Run the game. *)
+		runGame([], cardList, playerMoves, goal)
+	end
+							
+			
+			
