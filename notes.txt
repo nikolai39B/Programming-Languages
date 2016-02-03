@@ -1,8 +1,24 @@
 Programming Languages Notes
 
-01/29/16
+02/01/16
 
- 
+Tail Recursion
+-   Recursive call is at end of function
+-   Not always possible
+
+Functional Programming Concepts
+-   Avoiding mutation of values
+-   Using functions as values
+
+First-class Functions
+-   Can use them whenever we use values
+
+Function Closures
+-   Functions can use bindings from outside the function definition
+    -   In scope where function is defined
+-   Different from first-class functions
+
+
 
 01/25/16
 
