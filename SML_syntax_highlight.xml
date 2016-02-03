@@ -6,7 +6,7 @@
         </Settings>
         <KeywordLists>
             <Keywords name="Comments">00 01 02 03(* 04*)</Keywords>
-            <Keywords name="Numbers, prefix1"></Keywords>
+            <Keywords name="Numbers, prefix1">~</Keywords>
             <Keywords name="Numbers, prefix2"></Keywords>
             <Keywords name="Numbers, extras1"></Keywords>
             <Keywords name="Numbers, extras2"></Keywords>
@@ -25,9 +25,9 @@
             <Keywords name="Folders in comment, middle"></Keywords>
             <Keywords name="Folders in comment, close"></Keywords>
             <Keywords name="Keywords1">datatype val fun type exception</Keywords>
-            <Keywords name="Keywords2">in of case if then else andalso orelse while do raise let not end handle</Keywords>
+            <Keywords name="Keywords2">in of case if then else andalso orelse while do raise let not end handle fn</Keywords>
             <Keywords name="Keywords3">true false</Keywords>
-            <Keywords name="Keywords4">hd tl isSome valOf null NONE SOME</Keywords>
+            <Keywords name="Keywords4">hd tl isSome valOf null NONE SOME length</Keywords>
             <Keywords name="Keywords5">int bool string option list exn</Keywords>
             <Keywords name="Keywords6">#</Keywords>
             <Keywords name="Keywords7"></Keywords>
