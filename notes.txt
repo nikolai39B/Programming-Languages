@@ -1,5 +1,18 @@
 Programming Languages Notes
 
+02/05/16
+
+Functional Scoping
+-   Types
+    -   Lexical scope - environment where function is defined
+    -   Dynamic scope - environment where function is called
+-   Prefer lexical scope
+-   Why lexical scope?
+    -   Function meaning does not depend on variable names used
+    -   Functions can be type-checked
+    -   Closures can easily store the data they need
+    
+
 02/01/16
 
 Tail Recursion
@@ -17,9 +30,6 @@ Function Closures
 -   Functions can use bindings from outside the function definition
     -   In scope where function is defined
 -   Different from first-class functions
-
-dir
-
 
 01/25/16
 

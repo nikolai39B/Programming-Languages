@@ -52,7 +52,7 @@ fun sort(listToSort, sortingFunction) =
         
 val res = nTimes(triple, 12, 3);
 
-val sortedList = sort([ 3, 15, 2, 7, ~8, 9 ], fn (x, y) => x > y);
+val sortedList = sort([ 3, 15, 2, 7, ~8, 9 ], fn (x, y) => x < y);
 
 val x = 1;
 fun f(y) = 
