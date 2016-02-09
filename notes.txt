@@ -1,4 +1,27 @@
 Programming Languages Notes
+		
+02/08/16
+Function Composition
+-   Ex:
+    fun compose(f, g) =
+        fn x => f(g(x))
+-   Composes right-to-left by default
+    -   Use the infix operator to do left-to-right
+    -   Ex:
+        infix |>
+        fun x |> f = 
+            f(x)
+        
+        fun sqrtOfAbs i =
+            i |> abs |> Real.fromInt |> Math.sqrt
+            
+References
+-   Allows for mutation
+-   t ref (where t is a type)
+-   Ex:
+    ref e       (* Create reference with initial contents e *)
+    e1 := e2    (* Update contents *)
+    !e          (* Retrieve contents *)
 
 02/05/16
 
@@ -12,8 +35,33 @@ Functional Scoping
     -   Functions can be type-checked
     -   Closures can easily store the data they need
     
+02/03/16
+
+Inferred Types
+-	Used in function arguments
+-	Ex:
+	fun n_times (f,n,x) =
+		if 
+			n = 0
+		then 
+			x
+		else 
+			f(n_times(f, n - 1, x))
+			
+Anonymous Functions
+-	Declared using fn ([args]) => [body]
+-	Ex:
+	fun triple_n_times (f, x) =
+		n_times((fn y => 3  * y), n, x)
+			
 
 02/01/16
+
+Exceptions
+-	Ex: ([] means optional)
+	exception MyException [of int * int]
+	raise (MyException [(7, 9)] )
+	e1 handle MyException [(x, y)] => e2
 
 Tail Recursion
 -   Recursive call is at end of function
@@ -45,6 +93,29 @@ Datatype Bindings
                      | Negate of exp
                      | Add of exp * exp
                      | Multiply of exp * exp
+-	Each-of pattern matching
+	-	Pattern (x1, x2, ... , xn) matches tuple value (v1, v2, ... , vn)
+	-	Pattern { f1 = x1, ... , fn = xn } matches record value { f1 = v1, ... , fn = vn}
+-	Val-binding patterns
+	-	val-binding can use a pattern
+	-	Ex:
+		fun sum_triple triple =
+			let 
+				val (x, y, z) = triple
+			in
+				x + y + z
+			end
+	-	Function-argument patterns
+		-	Match against the argument in a pattern
+		-	Ex:
+			fun full_name {first=x, middle=y, last=z} =
+				x ^ " " ^ y ^ " " ^ z
+				
+Generic Types
+-	The 'a can stand for any type, but only one type
+	-	Referred to type variable
+	-	Ex:
+		'a list
             
 01/22/16
 
