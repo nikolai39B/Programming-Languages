@@ -1,5 +1,29 @@
 Programming Languages Notes
 
+02/08/16
+
+Function Composition
+-   Ex:
+    fun compose(f, g) =
+        fn x => f(g(x))
+-   Composes right-to-left by default
+    -   Use the infix operator to do left-to-right
+    -   Ex:
+        infix |>
+        fun x |> f = 
+            f(x)
+        
+        fun sqrtOfAbs i =
+            i |> abs |> Real.fromInt |> Math.sqrt
+            
+References
+-   Allows for mutation
+-   t ref (where t is a type)
+-   Ex:
+    ref e       (* Create reference with initial contents e *)
+    e1 := e2    (* Update contents *)
+    !e          (* Retrieve contents *)
+
 02/05/16
 
 Functional Scoping
@@ -11,7 +35,6 @@ Functional Scoping
     -   Function meaning does not depend on variable names used
     -   Functions can be type-checked
     -   Closures can easily store the data they need
-    
 
 02/01/16
 
