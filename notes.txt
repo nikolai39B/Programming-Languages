@@ -247,6 +247,20 @@ Lists
 
 01/13/16
 
+Addition
+-	e1 + e2 where e1, e2 are expressions
+-	if e1, e2 have type int, e1 + e2 have type int
+
+Conditionals
+-	if ... then ... else
+-	Ex:
+	if
+		x > 3
+	then
+		5
+	else
+		x + 4
+
 Function Bindings
 -   fun x0 (x1 : t1, ... , xn : tn) = e
 -   A function is a value.
