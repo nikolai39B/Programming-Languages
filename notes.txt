@@ -1,28 +1,55 @@
 Programming Languages Notes
-		
-02/08/16
-Function Composition
--   Ex:
-    fun compose(f, g) =
-        fn x => f(g(x))
--   Composes right-to-left by default
-    -   Use the infix operator to do left-to-right
-    -   Ex:
-        infix |>
-        fun x |> f = 
-            f(x)
-        
-        fun sqrtOfAbs i =
-            i |> abs |> Real.fromInt |> Math.sqrt
-            
-References
--   Allows for mutation
--   t ref (where t is a type)
--   Ex:
-    ref e       (* Create reference with initial contents e *)
-    e1 := e2    (* Update contents *)
-    !e          (* Retrieve contents *)
 
+02/10/16
+
+Modules
+-   Structures
+    -   Use structures to define modules
+    -   Ex:
+        structure MyModule =
+        struct
+            fun fact(x) =
+                <FUNCTION>
+            val half_pi = Math.pi / 2.0
+            fun doubler(x) = 
+                x * 2
+        end
+    -   More than just namespace management
+-   Signatures
+    -   Signature is a type for a module
+    -   Can define a signature and ascribe it to a module
+    -   Ex:
+        signature MATHLIB =
+        sig
+            val fact : int -> int
+            val half_pi : real
+            val doubler : int -> int -> ?a 'a #4
+        end
+    -   Assigning a signature to a module:
+            structure MyModule :> <SIGNAME> =
+            struct
+                <BINDINGS>
+            end
+        -   Module must match the signature
+    -   Can add functions to modules that aren't in the signature
+        -   They become "private"
+        
+Type-Checking
+-   Static vs Dynamic
+    -   Static: ensure that all signatures are correct before program runs
+    -   Dynamic: allow signatures to change
+-   Implicit typing
+    -   Will infer type from context
+    -   Can still be static
+    -   Steps
+        -   Determine all bindings in order (to allow later functions to use earlier ones)
+        -   Analyze fun/val bindings for all necessary constraints
+        -   Type error any issues
+        -   Give generic types ('a) for unconstrained types
+    
+    
+
+		
 02/08/16
 
 Function Composition
