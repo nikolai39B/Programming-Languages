@@ -81,7 +81,7 @@ fun fold (f, acc, xs) =
             fold (f, f(acc, x), xs)
             
 val res = fold(fn (x, y) => x + y, 0, [ 1, 2, 3, 4, 5 ]);
-*)
+*
 
 signature MATHLIB =
     sig
@@ -105,3 +105,4 @@ structure MyMathLib :> MATHLIB =
         fun doubler x = 
             x * 2
     end
+*)
