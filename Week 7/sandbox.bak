@@ -1,0 +1,4 @@
+#lang racket
+
+(define x 3)
+(define y (+ x 2))
