@@ -1,5 +1,10 @@
 Programming Languages Notes
 
+02/17/16
+
+Racket Introduction
+
+
 02/10/16
 
 Modules
