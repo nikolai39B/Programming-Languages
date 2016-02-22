@@ -1,9 +1,82 @@
 Programming Languages Notes
 
-02/17/16
+02/19/16
 
-Racket Introduction
-
+Introduction to Racket
+-   Basics
+    -   functional focus
+    -   no pattern matching
+    -   parentheses very important
+    -   start files with '#lang racket'
+    -   comments start with ';'
+    -   dynamically typed
+-   Parentheses
+    -   denote a function call
+    -   (FUNC_NAME PARAM1 PARAM2 ...)
+    -   Ex:
+        (foo x y) ; call foo(x, y)
+        (= y 3) ; evaluate y == 3
+    -   never extraneous
+        -   (e) means call e with zero arguments
+        -   ((e)) means call e with zero arguments, then call the result with zero arguments
+    -   can use [] in place of ()
+-   Defining Functions
+    -   (define (FUNC_NAME PARAM1 PARAM2 ...)
+            FUNC_BODY)
+    -   Ex:
+        (define (cube x)
+            (* x x x))
+    -   can also do it anonymously
+        -   use 'lambda' expression
+        -   (lambda (PARAM1 PARAM2 ...) 
+                FUNC_BODY)
+        -   Ex:
+            (define cube
+                (lambda (x)
+                    (* x x x)))
+-   List Processing
+    -   build in methods
+        -   empty list: null
+        -   cons constructor: cons
+        -   head: car
+        -   tail: cdr
+        -   check for empty: null?
+    -   building lists
+        - (list e1 ... en)
+-   Racket Syntax
+    -   terms
+        -   atoms: 34, "hi", null, x, #t, ...
+        -   special forms: define, lambda, if, ...
+        -   sequence of terms in parentheses: (t1 t2 ... tn)
+-   Conditionals
+    -   use 'cond' in place of nested ifs
+    -   (cond [case1 result1]
+              [case2 result2]
+              ...
+              [caseN resultN])
+    -   good style: caseN should be #t
+    
+Local Bindings
+-   Let
+    -   binds any number of local variables
+    -   expressions are evaluated in the environment from before the 'let' expression
+    -   Ex:
+        (let ([x (+ 2 3)]
+              [y (- 10 7)])
+            (+ x y -2))
+-   Let*
+    -   same as let, but also considers bindings generated earlier in the 'let*' expression
+-   Letrec
+    -   same as let*, but considers all bindings generated in the 'letrec' expression
+    
+Mutation
+-   Set!
+    -   'set!' functions mutate values
+    -   Ex:
+        (define a 4)    ; a = 4
+        (println a)     ; prints 4
+        (set! a 21)     ; a = 21
+        (println a)     ; prints 21
 
 02/10/16
 
@@ -51,9 +124,6 @@ Type-Checking
         -   Analyze fun/val bindings for all necessary constraints
         -   Type error any issues
         -   Give generic types ('a) for unconstrained types
-    
-    
-
 		
 02/08/16
 
