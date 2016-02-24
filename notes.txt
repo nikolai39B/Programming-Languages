@@ -1,5 +1,44 @@
 Programming Languages Notes
 
+02/24/16
+
+Streams
+-	Stream Concepts
+	-	infinite sequence of values
+	-	cannot make a stream by making all the values
+	-	use a thunk to delay creating most of the sequence
+-	Stream Implementation
+	-	implemented as a thunk that retruns a pair: (next_answer, next_thunk)
+	
+Memoization
+-	Memoization Concepts
+	-	if a function has no side effects and does not read mutable memory, no point in computing it twice
+	-	keep a "cache" of previous results
+	
+Macros
+-	Macros Concepts
+	-	
+	
+02/22/16 
+
+Lazy vs Eager Evaluation
+-	Delayed Evaluation
+	-	Function arguments are "eager"
+		-	Evaluated once before calling the function
+	-	Conditional branches are not "eager"
+-	Thunks
+	-	zero-argument functions used to delay execution
+	-	since we only evaluate the function body when the function is called, we delay execution of the function body until the 
+		function is needed
+	-	Ex:
+		(lambda () e)
+		...
+		(e)
+-	Lazy Evaluation
+	-	expression not computed until needed
+	-	remember the answer so future uses complete immediately
+	-	only useful if computation is expensive and has no side effects
+
 02/19/16
 
 Introduction to Racket
