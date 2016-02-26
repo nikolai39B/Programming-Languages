@@ -231,36 +231,25 @@
 )
 
 (define (stream-for-n-steps s n)
-  (cond
-    ; If we're out of values in the stream, return an empty list
-    [
-      (stream-empty? s)
-      '()
-    ]
+  ; If n is 0 or less ...
+  (if
+    (<= n 0)
 
-    ; Otherwise, if n is 0 or less, return an empty list
-    [
-      (<= n 0)
-      '()
-    ]
+    ; ... return an empty list
+    '()
 
-    ; Otherwise, return the next value in the stream and recurse
-    [
-      #t
+    ; Otherwise, get the next value in the stream
+    (cons
       ; Append the next value to the result
-      (cons
-        (stream-first s)
-        (stream-for-n-steps
-          (stream-rest s)
-          (- n 1)
-        )
-      )
-    ]
-  )
-)
+      (car (s))
 
-(define funny-number-stream
-  1
+      ; Recurse on the stream
+      (stream-for-n-steps
+        (cdr (s))
+        (- n 1)
+      )
+    )
+  )
 )
 
 (define powers-of-two
@@ -279,8 +268,131 @@
         )
       ]
     )
-  (lambda ()
-    (f 2)
-   )
+    
+    (lambda ()
+      (f 2)
+    )
   )
 )
+
+(define funny-number-stream
+  (letrec
+    (
+      ; Define our main function for the stream
+      [
+        getNextPair (lambda (currValue)
+          ; Prepend the current value to the next stream
+          (cons
+            ; Prepend the current value
+            currValue
+
+            ; Define the next stream
+            (lambda ()
+              (getNextPair
+                (cond                  
+                  ; If currValue is negative, return the absolute value of currValue, + 1
+                  [
+                    (< currValue 0)
+                    (+
+                      (abs currValue)
+                      1
+                    )
+                  ]
+
+                  ; Otherwise, if currValue + 1 is divisible by 5, return it negated
+                  [
+                    (=
+                      (modulo
+                        (+ currValue 1)
+                        5
+                      )
+                      0
+                    )                
+                    (*
+                      (+ currValue 1)
+                      -1
+                    )
+                  ]
+
+                  ; Otherwise, return currValue + 1
+                  [
+                    #t
+                    (+ currValue 1)
+                  ]
+                )
+              )
+            )
+          )
+        )
+      ]
+    )
+    
+    ; Define the intial value
+    (lambda ()
+      (getNextPair 1)
+    )
+  )  
+)
+
+
+(define (createStreamWithValueModifier initialValue getNextValueFromCurrent modifyValue)
+  (letrec
+    (
+      ; Define our main function for the stream
+      [
+        getNextPair (lambda (currValue)
+          ; Prepend the current value to the next stream
+          (cons
+            ; Modify and prepend the current value
+            (modifyValue currValue)
+
+            ; Define the next stream
+            (lambda ()
+              (getNextPair
+                (getNextValueFromCurrent currValue)
+              )
+            )
+          )
+        )
+      ]
+    )
+    
+    ; Define the intial value
+    (lambda ()
+      (getNextPair initialValue)
+    )
+  ) 
+)
+
+(define (createStream initialValue getNextValueFromCurrent)
+  (createStreamWithValueModifier
+    initialValue
+    getNextValueFromCurrent
+    (lambda (currValue)
+      currValue
+    )
+  )
+)
+
+(define (cycle-lists xs ys)
+  ; Define the new stream
+  (createStreamWithValueModifier
+    ; Our initial value is 0 (index 0)
+    0
+
+    ; The next index in the stream is the current index + 1
+    (lambda (currIndex)
+      (+ currIndex 1)
+    )
+
+    ; We don't actually want to output the index; instead, we want to give the elements at that index
+    (lambda (currIndex)
+      (list
+        (list-nth-mod xs currIndex)
+        (list-nth-mod ys currIndex)
+      )
+    )
+  )
+)
+
+

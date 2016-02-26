@@ -105,6 +105,7 @@ Local Bindings
             (+ x y -2))
 -   Let*
     -   same as let, but also considers bindings generated earlier in the 'let*' expression
+    -   work like SML 'let' expressions
 -   Letrec
     -   same as let*, but considers all bindings generated in the 'letrec' expression
     

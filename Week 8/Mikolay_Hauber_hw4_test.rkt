@@ -59,4 +59,18 @@
 (println (with-handlers ([exn:fail? (lambda(exn) #t)]) (list-nth-mod '() 1)))
 
 (println "stream-for-n-steps")
-(println (stream-for-n-steps powers-of-two 5))
+(println (equal? (stream-for-n-steps powers-of-two 0) '()))
+(println (equal? (stream-for-n-steps powers-of-two 3) '(2 4 8)))
+(println (equal? (stream-for-n-steps powers-of-two 5) '(2 4 8 16 32)))
+
+(println "funny-number-stream")
+(println (equal? (stream-for-n-steps funny-number-stream 1) '(1)))
+(println (equal? (stream-for-n-steps funny-number-stream 5) '(1 2 3 4 -5)))
+(println (equal? (stream-for-n-steps funny-number-stream 12) '(1 2 3 4 -5 6 7 8 9 -10 11 12)))
+
+(println "cycle-lists")
+(println (equal? (stream-for-n-steps (cycle-lists  '(1 2 3) '("a" "b")) 0) '()))
+(println (equal? (stream-for-n-steps (cycle-lists  '(1 2 3) '("a" "b")) 2) '((1 "a") (2 "b"))))
+(println (equal? (stream-for-n-steps (cycle-lists  '(1 2 3) '("a" "b")) 10)
+                 '((1 "a") (2 "b") (3 "a") (1 "b") (2 "a") (3 "b") (1 "a") (2 "b") (3 "a") (1 "b"))))
+(println (equal? (stream-for-n-steps (cycle-lists  '(1) '("a")) 3) '((1 "a") (1 "a") (1 "a"))))
