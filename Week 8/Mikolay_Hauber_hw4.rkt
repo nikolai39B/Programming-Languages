@@ -189,4 +189,98 @@
     )
   )
 )
+
+(define (string-append-map xs suffix)
+  (map
+    ; For each item in xs, append the suffix
+    (lambda (input)
+      (string-append input suffix)
+    )
+    xs
+  )
+)
        
+(define (list-nth-mod xs n)
+  (cond
+    ; If n is less than 0, flag an error
+    [
+      (< n 0)
+      (error "list-nth-mod: negative number")
+    ]
+    
+    ; Otherwise, if xs is empty, flag an error
+    [
+      (null? xs)
+      (error "list-nth-mod: empty list")
+    ]
+
+    ; Otherwise, find the result
+    [
+      #t
+
+      ; Return the element in the list equal to the remainder when we divide n by the length of xs
+      (list-ref
+        xs
+        (modulo
+          n
+          (length xs)
+        )
+      )
+    ]
+  )
+)
+
+(define (stream-for-n-steps s n)
+  (cond
+    ; If we're out of values in the stream, return an empty list
+    [
+      (stream-empty? s)
+      '()
+    ]
+
+    ; Otherwise, if n is 0 or less, return an empty list
+    [
+      (<= n 0)
+      '()
+    ]
+
+    ; Otherwise, return the next value in the stream and recurse
+    [
+      #t
+      ; Append the next value to the result
+      (cons
+        (stream-first s)
+        (stream-for-n-steps
+          (stream-rest s)
+          (- n 1)
+        )
+      )
+    ]
+  )
+)
+
+(define funny-number-stream
+  1
+)
+
+(define powers-of-two
+  (letrec
+    (
+      [
+        f (lambda (x)
+          (cons
+            x
+            (lambda ()
+              (f
+                (* x 2)
+              )
+            )
+          )
+        )
+      ]
+    )
+  (lambda ()
+    (f 2)
+   )
+  )
+)
