@@ -9,15 +9,85 @@ Streams
 	-	use a thunk to delay creating most of the sequence
 -	Stream Implementation
 	-	implemented as a thunk that retruns a pair: (next_answer, next_thunk)
+    -   use car and cdr to get elements
+        -   First:  (car (s))
+        -   Second: (car ((cdr (s))))
+        -   Third:  (car ((cdr ((cdr (s))))))
+-   Making a Stream
+    -   Ex:
+        (define ones 
+            (lambda () 
+                (cons 1 ones)
+            )
+        )
+        
+        (define powers-of-two
+            (letrec
+                (
+                    [
+                        f (lambda (x)
+                            (cons
+                                x
+                                (lambda ()
+                                    (f
+                                        (* x 2)
+                                    )
+                                )
+                            )
+                        )
+                    ]
+                )
+                (lambda ()
+                    (f 2)
+                )
+            )
+        )
+    -   Template:
+        (define (createStreamWithValueModifier initialValue getNextValueFromCurrent modifyValue)
+            (letrec
+                (
+                    ; Define our main function for the stream
+                    [
+                        getNextPair (lambda (currValue)
+                            ; Prepend the current value to the next stream
+                            (cons
+                                ; Modify and prepend the current value
+                                (modifyValue currValue)
+
+                                ; Define the next stream
+                                (lambda ()
+                                    (getNextPair
+                                        (getNextValueFromCurrent currValue)
+                                    )
+                                )
+                            )
+                        )
+                    ]
+                )
+            
+                ; Define the intial value
+                (lambda ()
+                    (getNextPair initialValue)
+                )
+            ) 
+        )
+    
 	
 Memoization
 -	Memoization Concepts
 	-	if a function has no side effects and does not read mutable memory, no point in computing it twice
 	-	keep a "cache" of previous results
+    -   assoc
+        -   (assoc v lst) takes a list of pairs and locates the first element of lst whose car is equal to v
+        -   returns the pair if possible; otherwise, #f
 	
 Macros
 -	Macros Concepts
-	-	
+	-	used to implement syntactic sugar
+    -   Ex:
+        (my-if x then y else z)
+        (comment-out (car null) #f)
+    -   Avoid overuse
 	
 02/22/16 
 
