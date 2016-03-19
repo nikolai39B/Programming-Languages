@@ -1,5 +1,47 @@
 Programming Languages Notes
 
+03/02/16
+
+Types
+-	Correctness
+	-	assume a type system is supposed to prevent X
+	-	sound
+		-	a type system is sound if it never accepts a program that produces X
+		-	no "false negatives"
+	-	complete
+		-	a type system is complete if it never rejects a program that will not do X
+		-	no "false positives"
+	-	goal of a PL type system is to be sound but not necessarily complete
+	-	can't ever have a sound and complete system that also always terminates
+-	Weak Typing
+	-	must pass static checking but can do anything once run
+	-	C and C++ are this way
+
+02/29/16
+
+Racket Datatypes
+-	Datatype
+	-	no "datatype" keyword like in SML
+	-	not necessary; can mix values of different types and use primitives like "number?", "string?", "pair?" etc to parse
+-	Struct
+	-	(struct NAME (ITEM_1 ITEM_2 ... ITEM_N) ATTRIBUTE_1 ... ATTRIBUTE_N)
+	-	attributes
+		-	'#:transparent' prints struct values for debugging purposes
+		-	'#:mutable' provides more functions to support mutation
+	-	functions
+		-	member retrieval
+			-	NAME-ITEM_1, NAME-ITEM_2, ...
+			-	Ex:
+				(foo-item1 e)
+		-	type checking
+			-	NAME?
+			-	Ex:
+				(foo? e)
+		-	constructing
+			-	NAME
+			-	Ex:
+				(foo e1 e2 e3)	
+
 02/24/16
 
 Streams
