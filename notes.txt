@@ -1,5 +1,41 @@
 Programming Languages Notes
 
+03/18/16
+
+Inheritance
+-	Subtyping
+	-	use if "every B is an A"
+	-	subtypes are substitutable for supertypes
+	-	B is a "true" subtype of A if B has a stronger specification than A
+		-	avoid non-true subtypes
+	-	avoid repeating unchanged fields/methods
+	-	be careful (squares not exactly rectanges...)
+		-	any property guaranteed by the base class must be guaranteed by the child class
+		-	don't "weaken the spec"
+-	Interfaces
+	-	subtyping without inheritance (no implementation)
+	-	classes/interfaces can inherit from multiple interfaces
+
+03/16/16
+
+Paradigms
+-	Declarative
+	-	set of constraints expressed as logic
+	-	used for specs/modeling
+	-	examples: Prolog, Racklog
+-	Imperative
+	-	statement execution results in state changes and is determined via control 
+		structures
+	-	assignments and side effects
+	-	examples: C, C++, Java, Python
+	
+Object Oriented Paradigm
+-	Terms
+	-	class: a type that contains data and functions to operate on the data
+	-	object: instance of a class
+-	Subtyping
+	-	intuitively, if Y is a subtype of X, Y has all the fields X has
+
 03/02/16
 
 Types
@@ -22,7 +58,8 @@ Types
 Racket Datatypes
 -	Datatype
 	-	no "datatype" keyword like in SML
-	-	not necessary; can mix values of different types and use primitives like "number?", "string?", "pair?" etc to parse
+	-	not necessary; can mix values of different types and use primitives like "number?",
+		"string?", "pair?" etc to parse
 -	Struct
 	-	(struct NAME (ITEM_1 ITEM_2 ... ITEM_N) ATTRIBUTE_1 ... ATTRIBUTE_N)
 	-	attributes
@@ -117,10 +154,12 @@ Streams
 	
 Memoization
 -	Memoization Concepts
-	-	if a function has no side effects and does not read mutable memory, no point in computing it twice
+	-	if a function has no side effects and does not read mutable memory, no point in 
+		computing it twice
 	-	keep a "cache" of previous results
     -   assoc
-        -   (assoc v lst) takes a list of pairs and locates the first element of lst whose car is equal to v
+        -   (assoc v lst) takes a list of pairs and locates the first element of lst whose 
+			car is equal to v
         -   returns the pair if possible; otherwise, #f
 	
 Macros
@@ -140,8 +179,8 @@ Lazy vs Eager Evaluation
 	-	Conditional branches are not "eager"
 -	Thunks
 	-	zero-argument functions used to delay execution
-	-	since we only evaluate the function body when the function is called, we delay execution of the function body until the 
-		function is needed
+	-	since we only evaluate the function body when the function is called, we delay 
+		execution of the function body until the function is needed
 	-	Ex:
 		(lambda () e)
 		...
