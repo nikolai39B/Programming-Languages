@@ -6,6 +6,7 @@
 
 #lang racket
 (require racklog)
+(provide (all-defined-out))
 
 ; Facts
 (define %male
@@ -202,6 +203,75 @@
                   )
           #f
           )
+         ]
+        )
+  )
+
+(define %greatgrandparent
+  (%rel (%greatgrandparent greatgrandchild)
+        [(%greatgrandparent greatgrandchild)
+         (%/==
+          (%which (parent) (%and
+                            (%grandparent %greatgrandparent parent)
+                            (%parent parent greatgrandchild)
+                            )
+                  )
+          #f
+          )
+         ]
+        )
+  )
+
+; inlaw is defined as mother-in-law, father-in-law, brother-in-law, or sister-in-law
+(define %inlaw
+  (%rel (inlaw person)
+        [(inlaw person)
+         (%/==
+          (%which (intermediate)
+                  (%and
+                   (%spouse person intermediate)
+                   (%or
+                    (%parent inlaw intermediate)
+                    (%sibling inlaw intermediate)
+                    )
+                   )
+                  )
+          #f
+          )
+         ]
+        )
+  )
+
+(define %niece
+  (%rel (niece relative)
+        [(niece relative)
+         (%/==
+          (%which (parent)
+                  (%and
+                   (%parent parent niece)
+                   (%sibling parent relative)
+                   )
+                  )
+          #f
+          )
+         (%female niece)
+         ]
+        )
+  )
+
+(define %nephew
+  (%rel (nephew relative)
+        [(nephew relative)
+         (%/==
+          (%which (parent)
+                  (%and
+                   (%parent parent nephew)
+                   (%sibling parent relative)
+                   )
+                  )
+          #f
+          )
+         (%male nephew)
          ]
         )
   )
