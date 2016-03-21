@@ -222,7 +222,7 @@
         )
   )
 
-; inlaw is defined as mother-in-law, father-in-law, brother-in-law, or sister-in-law
+; inlaw is defined as son-in-law, daughter-in-law, mother-in-law, father-in-law, brother-in-law, or sister-in-law
 (define %inlaw
   (%rel (inlaw person)
         [(inlaw person)
@@ -233,6 +233,22 @@
                    (%or
                     (%parent inlaw intermediate)
                     (%sibling inlaw intermediate)
+                    (%parent intermediate inlaw)
+                    )
+                   )
+                  )
+          #f
+          )
+         ]
+        [(inlaw person)
+         (%/==
+          (%which (intermediate)
+                  (%and
+                   (%spouse inlaw intermediate)
+                   (%or
+                    (%parent person intermediate)
+                    (%sibling person intermediate)
+                    (%parent intermediate person)
                     )
                    )
                   )
