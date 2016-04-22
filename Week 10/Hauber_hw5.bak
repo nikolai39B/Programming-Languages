@@ -1,0 +1,15 @@
+;
+; Will Hauber
+; Homework 5
+; 03/21/16
+;
+
+#lang racket
+(require racklog)
+
+; Facts
+(define %male
+  (%rel ()
+        [('Phil)]
+        )
+  )

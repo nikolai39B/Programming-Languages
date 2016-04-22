@@ -71,6 +71,85 @@ Logic Programming
     -   use (%more) to get additional entries
         -   will evaluate to #f when out of possibilities
 
+03/18/16
+
+Inheritance
+-	Subtyping
+	-	use if "every B is an A"
+	-	subtypes are substitutable for supertypes
+	-	B is a "true" subtype of A if B has a stronger specification than A
+		-	avoid non-true subtypes
+	-	avoid repeating unchanged fields/methods
+	-	be careful (squares not exactly rectanges...)
+		-	any property guaranteed by the base class must be guaranteed by the child class
+		-	don't "weaken the spec"
+-	Interfaces
+	-	subtyping without inheritance (no implementation)
+	-	classes/interfaces can inherit from multiple interfaces
+
+03/16/16
+
+Paradigms
+-	Declarative
+	-	set of constraints expressed as logic
+	-	used for specs/modeling
+	-	examples: Prolog, Racklog
+-	Imperative
+	-	statement execution results in state changes and is determined via control 
+		structures
+	-	assignments and side effects
+	-	examples: C, C++, Java, Python
+	
+Object Oriented Paradigm
+-	Terms
+	-	class: a type that contains data and functions to operate on the data
+	-	object: instance of a class
+-	Subtyping
+	-	intuitively, if Y is a subtype of X, Y has all the fields X has
+
+03/02/16
+
+Types
+-	Correctness
+	-	assume a type system is supposed to prevent X
+	-	sound
+		-	a type system is sound if it never accepts a program that produces X
+		-	no "false negatives"
+	-	complete
+		-	a type system is complete if it never rejects a program that will not do X
+		-	no "false positives"
+	-	goal of a PL type system is to be sound but not necessarily complete
+	-	can't ever have a sound and complete system that also always terminates
+-	Weak Typing
+	-	must pass static checking but can do anything once run
+	-	C and C++ are this way
+
+02/29/16
+
+Racket Datatypes
+-	Datatype
+	-	no "datatype" keyword like in SML
+	-	not necessary; can mix values of different types and use primitives like "number?",
+		"string?", "pair?" etc to parse
+-	Struct
+	-	(struct NAME (ITEM_1 ITEM_2 ... ITEM_N) ATTRIBUTE_1 ... ATTRIBUTE_N)
+	-	attributes
+		-	'#:transparent' prints struct values for debugging purposes
+		-	'#:mutable' provides more functions to support mutation
+	-	functions
+		-	member retrieval
+			-	NAME-ITEM_1, NAME-ITEM_2, ...
+			-	Ex:
+				(foo-item1 e)
+		-	type checking
+			-	NAME?
+			-	Ex:
+				(foo? e)
+		-	constructing
+			-	NAME
+			-	Ex:
+				(foo e1 e2 e3)
+
 02/24/16
 
 Streams
@@ -146,10 +225,12 @@ Streams
 	
 Memoization
 -	Memoization Concepts
-	-	if a function has no side effects and does not read mutable memory, no point in computing it twice
+	-	if a function has no side effects and does not read mutable memory, no point in 
+		computing it twice
 	-	keep a "cache" of previous results
     -   assoc
-        -   (assoc v lst) takes a list of pairs and locates the first element of lst whose car is equal to v
+        -   (assoc v lst) takes a list of pairs and locates the first element of lst whose 
+			car is equal to v
         -   returns the pair if possible; otherwise, #f
 	
 Macros
@@ -169,8 +250,8 @@ Lazy vs Eager Evaluation
 	-	Conditional branches are not "eager"
 -	Thunks
 	-	zero-argument functions used to delay execution
-	-	since we only evaluate the function body when the function is called, we delay execution of the function body until the 
-		function is needed
+	-	since we only evaluate the function body when the function is called, we delay 
+		execution of the function body until the function is needed
 	-	Ex:
 		(lambda () e)
 		...
