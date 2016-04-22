@@ -1,5 +1,76 @@
 Programming Languages Notes
 
+03/14/16 
+
+Logic Programming
+-   Introduction
+    -   focus is on specifying the problem and letting the computer solve it
+    -   use racket and "racklog" package
+        -   (require racklog)
+-   Vocab
+    -   goals
+    -   queries (running the program)
+    -   predicates (defines relations)
+    -   facts (unconditional truths)
+    -   rules (conditional truths)
+-   Goals
+    -   an object whose truth or falsity we can check
+    -   two simplest goals:
+        -   %true
+        -   %fail
+    -   checking goals
+        -   Ex:
+            (%which () %true) ; evaluates to '()
+            (%which () %fail) ; evaluates to #f    
+-   Predicates
+    -   simple predicates
+        -   %=:=    equal
+        -   %<      less than
+        -   %>      greater than
+        -   %<=     less than or equal
+        -   %>=     greater than or equal
+        -   %=/=    not equal
+    -   custom predicates
+        -   made using %rel
+        -   facts and rules
+        -   Ex (fact):
+            (define %knows
+                (%rel ()
+                    [('Odysseus 'TeX)]
+                    [('Odysseus 'Racket)]
+                    [('Odysseus 'Prolog)]
+                    [('Odysseus 'Penelope)]
+                    [('Penelope 'TeX)]
+                    [('Penelope 'Prolog)]
+                    [('Penelope 'Odysseus)]
+                    [('Telemachus 'TeX)]
+                    [('Telemachus 'calculus)]
+                )
+            )
+        -   Ex (rule):
+            (define %computer-literate
+                (%rel (person)
+                    [(person)
+                        (%knows person 'TeX)
+                        (%knows person 'Racket)
+                    ]
+                    [(person)
+                        (%knows person 'TeX)
+                        (%knows person 'Prolog)
+                    ]
+                )
+            )
+-   Solving Goals
+    -   ask racklog to find a solution to a query
+    -   Ex:
+        (%which (what)
+            (%knows 'Odysseus what)
+        )
+        ; evalates to '((what . TeX))
+    -   only returns the first "match"
+    -   use (%more) to get additional entries
+        -   will evaluate to #f when out of possibilities
+
 02/24/16
 
 Streams
